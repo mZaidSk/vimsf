@@ -1,0 +1,26 @@
+<section class="main-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12 p-0">
+                <div class="vims-sidebar">
+                    <mat-drawer-container class="example-container">
+                        <mat-drawer opened #drawer
+                            class="mat-drawer example-sidenav mat-drawer-opened ng-tns-c33-0 ng-trigger ng-trigger-transform mat-drawer-side ng-star-inserted"
+                            mode="side">
+                            <div class="sidebar-contbox">
+                                <div class="sidebar-logobox">
+                                    <div class="sidebar-logo">
+                                        <strong style="color: white; font-size: xx-large">BBMS</strong>
+                                    </div>
+                                </div>
+                                <app-sidebar></app-sidebar>
+                            </div>
+                        </mat-drawer>
+                        <app-header (eEmitToggle)="eEmitToggle()"></app-header>
+                        <router-outlet></router-outlet>
+                    </mat-drawer-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

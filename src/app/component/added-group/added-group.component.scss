@@ -1,0 +1,47 @@
+// .example-action-buttons {
+//   padding-bottom: 20px;
+// }
+
+// .example-headers-align .mat-expansion-panel-header-title,
+// .example-headers-align .mat-expansion-panel-header-description {
+//   flex-basis: 0;
+// }
+
+// .example-headers-align .mat-expansion-panel-header-description {
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// .example-headers-align .mat-form-field + .mat-form-field {
+//   margin-left: 8px;
+// }
+
+table {
+    width: 100%;
+}
+  
+mat-panel-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 5px;
+    color: #282d30;
+}
+.addrole {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7f2269;
+    text-decoration: underline;
+}
+.mat-box {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+}
+.mat-box h5 {
+    font-size: 16px;
+    margin-top: 20px;
+}
+  

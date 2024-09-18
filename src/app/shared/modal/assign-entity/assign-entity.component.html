@@ -1,0 +1,16 @@
+<div>
+    <div class="model-header">
+        <h3>{{data?.label | titlecase}}</h3>
+    </div>
+    <div class="inv-input">
+        <ng-select [clearable]="false" loadingText="Loading..." [virtualScroll]="true"
+            [(ngModel)]="data.selected" [multiple]="true" placeholder="Type to search">
+            <ng-option *ngFor="let record of data.records" [value]="record.id">{{record.name | titlecase}}</ng-option>
+        </ng-select>
+    </div>
+</div>
+<div mat-dialog-actions class="model-btn">
+    <button mat-button style="left: 310px; background: rgba(0,0,0,.38); border: none;"
+        (click)="cancel()">Cancel</button>
+    <button mat-button (click)="done()">Done</button>
+</div>

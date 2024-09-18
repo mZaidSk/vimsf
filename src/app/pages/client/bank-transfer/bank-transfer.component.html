@@ -1,0 +1,207 @@
+<app-loader class="loader" *ngIf="isLoading"></app-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="inventory-box">
+                    <div class="inhhouse-box">
+                        <div class="map-title">
+                            <h5>
+                                <span (click)="back()">
+                                    <mat-icon aria-hidden="false" aria-label="Example arrow_back icon">arrow_back
+                                    </mat-icon>
+                                </span>
+                                Bank Transfer
+                            </h5>
+                        </div>
+                        <div class="inventory-form">
+                            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="add-tran-input">
+                                            <label class="label-input required">From Bank</label>
+                                            <ng-select [clearable]="false" loadingText="Loading..."
+                                                [virtualScroll]="true" formControlName="from_bank_id"
+                                                placeholder="Type to search">
+                                                <ng-option *ngFor="let bank of banks" [value]="bank.id">
+                                                    {{ bank.name | titlecase }}</ng-option>
+                                            </ng-select>
+                                            <p *ngIf="
+                          form.controls.from_bank_id.touched &&
+                          form.controls.from_bank_id.invalid
+                        " class="text-danger input-error">
+                                                <span *ngIf="form.controls.from_bank_id.errors.required">from bank is
+                                                    required</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="add-tran-input">
+                                            <label class="label-input required">To Bank</label>
+                                            <ng-select [clearable]="false" loadingText="Loading..."
+                                                [virtualScroll]="true" formControlName="to_bank_id"
+                                                placeholder="Type to search">
+                                                <ng-option *ngFor="let bank of banks" [value]="bank.id">
+                                                    {{ bank.name | titlecase }}</ng-option>
+                                            </ng-select>
+                                            <p *ngIf="
+                          form.controls.to_bank_id.touched &&
+                          form.controls.to_bank_id.invalid
+                        " class="text-danger input-error">
+                                                <span *ngIf="form.controls.to_bank_id.errors.required">to bank is
+                                                    required</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="add-tran-input">
+                                            <label class="label-input required">Amount</label>
+                                            <input type="text" class="invt-input form-control titlecase"
+                                                formControlName="amount" (keypress)="onKeyPress($event)" required />
+                                            <p *ngIf="
+                          form.controls.amount.touched &&
+                          form.controls.amount.invalid
+                        " class="text-danger input-error">
+                                                <span *ngIf="form.controls.amount.errors.required">amount is
+                                                    required</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="add-tran-input">
+                                            <label class="label-input required">UTR</label>
+                                            <input type="text" class="invt-input form-control titlecase"
+                                                formControlName="utr" required />
+                                            <p *ngIf="
+                          form.controls.utr.touched && form.controls.utr.invalid
+                        " class="text-danger input-error">
+                                                <span *ngIf="form.controls.utr.errors.required">utr is required</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-8">
+                                        <div class="add-tran-input">
+                                            <label class="label-input">Description</label>
+                                            <textarea type="number" class="invt-input form-control titlecase"
+                                                formControlName="description" placeholder="Description">
+                      </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inverntory-btn mt-4">
+                                    <button [disabled]="form.invalid || isLoading" [class.spinner]="isLoading"
+                                        mat-button style="margin: unset; margin-left: auto">
+                                        Bank Transfer Amount
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="inventory-box">
+                    <div class="inhhouse-box">
+                        <div class="inventory-form">
+                            <form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="label-input">From Bank</label>
+                                        <ng-select [clearable]="true" loadingText="Loading..." [virtualScroll]="true"
+                                            formControlName="from_bank_id" placeholder="Type to search">
+                                            <ng-option *ngFor="let bank of banks" [value]="bank.id">
+                                                {{ bank.name | titlecase }}</ng-option>
+                                        </ng-select>
+                                    </div>
+
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="label-input">To Bank</label>
+                                        <ng-select [clearable]="true" loadingText="Loading..." [virtualScroll]="true"
+                                            formControlName="to_bank_id" placeholder="Type to search">
+                                            <ng-option *ngFor="let bank of banks" [value]="bank.id">
+                                                {{ bank.name | titlecase }}</ng-option>
+                                        </ng-select>
+                                    </div>
+
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="label-input">Amount</label>
+                                        <input type="text" class="invt-input form-control titlecase" formControlName="amount"
+                                            (keypress)="onKeyPress($event)" />
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="label-input">UTR</label>
+                                        <input type="text" class="invt-input form-control titlecase" formControlName="utr"
+                                            (keypress)="onKeyPress($event)" />
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="inverntory-btn mr-2" style="position: relative; top: 27px">
+                                            <button mat-button>Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <table mat-table [dataSource]="dataSource" style="width: 100%">
+                    <ng-container matColumnDef="fromname">
+                        <th mat-header-cell *matHeaderCellDef>From Bank Namess</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.from_bank?.name }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="toname">
+                        <th mat-header-cell *matHeaderCellDef>To Bank Name</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.to_bank?.name }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef>Amount</th>
+                        <td mat-cell *matCellDef="let element">{{ element?.amount }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>Create Date</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.created_at | date : "short" }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="utr">
+                        <th mat-header-cell *matHeaderCellDef>UTR</th>
+                        <td mat-cell *matCellDef="let element">{{ element?.utr }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="created_by">
+                        <th mat-header-cell *matHeaderCellDef>Added By</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.created_by.name | titlecase }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{
+                            (element?.description?.substring(0, 15) | titlecase) || "NA"
+                            }}...<a style="color: blue; cursor: pointer" (click)="readmore(element?.description)">Read
+                                more</a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-right">Action</th>
+                        <td mat-cell *matCellDef="let element" class="text-right" style="cursor: pointer">
+                            <div class="action-btn">
+                                <mat-icon aria-hidden="false" aria-label="Example delete icon" style="color: #dd0202"
+                                    (click)="delete(element)">delete</mat-icon>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <h3 class="p-3 text-center" *ngIf="!dataSource?.length">
+                    No result found
+                </h3>
+                <mat-paginator showFirstLastButtons [pageSize]="pageSize" [length]="total"
+                    [pageSizeOptions]="pageSizeOptions">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

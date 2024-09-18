@@ -1,0 +1,194 @@
+<app-loader class="loader" *ngIf="isLoading"></app-loader>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="inventory-box">
+          <div class="inhhouse-box">
+            <div class="map-title">
+              <h5>
+                <span (click)="back()">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example arrow_back icon"
+                    >arrow_back
+                  </mat-icon>
+                </span>
+                {{ worksheetId ? "Edit" : "Add" }} Work Slot
+              </h5>
+            </div>
+            <div class="inventory-form">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Name</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control titlecase"
+                        formControlName="name"
+                        placeholder="name"
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.name.touched &&
+                          form.controls.name.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.name.errors.required"
+                          >name is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Start Date</label>
+                      <input
+                        type="date"
+                        class="invt-input form-control titlecase"
+                        formControlName="work_start_date"
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.work_start_date.touched &&
+                          form.controls.work_start_date.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span
+                          *ngIf="form.controls.work_start_date.errors.required"
+                          >start date is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Slots</label>
+                      <ng-select
+                        [clearable]="false"
+                        appendTo="body"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="slot_id"
+                        placeholder="Type to search"
+                      >
+                        <ng-option *ngFor="let slot of slots" [value]="slot.id">
+                          {{ slot.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                      <p
+                        *ngIf="
+                          form.controls.work_start_date.touched &&
+                          form.controls.work_start_date.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span
+                          *ngIf="form.controls.work_start_date.errors.required"
+                          >start date is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12" style="text-align: right">
+                    <div
+                      class="inverntory-btn mt-3"
+                      style="display: flex; justify-content: flex-end"
+                    >
+                      <button
+                        [disabled]="form.invalid || isLoading"
+                        [class.spinner]="isLoading"
+                        mat-button
+                        style="margin: unset"
+                      >
+                        {{ worksheetId ? "Update" : "Create" }}
+                        Work Slot
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-xs-12 dash-column">
+        <div class="inventory-box">
+          <div class="inventory-icon">
+            <img
+              src="../../../../assets/images/deposit-req.png"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div class="inventory-cont">
+            <p>Total Deposit</p>
+            <h5>{{ workslot?.total_deposit_in_slot }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-xs-12 dash-column">
+        <div class="inventory-box" style="padding: 30px 0px">
+          <div class="inventory-icon">
+            <img
+              src="../../../../assets/images/withdraw-req.png"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div class="inventory-cont">
+            <p>Total Withdrawal</p>
+            <h5>{{ workslot?.total_withdrawal_in_slot }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-xs-12 dash-column">
+        <div class="inventory-box" style="padding: 30px 0px">
+          <div class="inventory-icon">
+            <img
+              src="../../../../assets/images/id-req.png"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div class="inventory-cont">
+            <p>Deposit Number</p>
+            <h5>{{ workslot?.deposit_num_in_slot }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-xs-12 dash-column">
+        <div class="inventory-box" style="padding: 30px 0px">
+          <div class="inventory-icon">
+            <img
+              src="../../../../assets/images/password-change.png"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div class="inventory-cont">
+            <p>Withdrawal Number</p>
+            <h5>{{ workslot?.withdrawal_num_in_slot }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-multiple-image-upload
+      *ngIf="worksheetId"
+      [id]="worksheetId"
+      [detail]="work_sheet"
+      [dataSource]="workSheets"
+      (emitResponse)="emitResponse()"
+    >
+    </app-multiple-image-upload>
+  </div>
+</div>

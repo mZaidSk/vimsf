@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="inventory-box">
+                    <div class="inhhouse-box">
+                        <div class="map-title" style="display: flex; justify-content: space-between;">
+                            <h5>Notification</h5>
+                            <mat-icon class="close-icon" color="grey" style="cursor: pointer;"
+                                (click)="closeModal()">close</mat-icon>
+                        </div>
+                        <br>
+                        <div class="inventory-form">
+                            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12 mb-2">
+                                        <div class="add-tran-input">
+                                            <label class="label-input">Title</label>
+                                            <input type="text" class="invt-input form-control titlecase"
+                                                placeholder="Title" formControlName="notice_title" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 mb-2">
+                                        <div class="add-tran-input">
+                                            <label class="label-input">Notification</label>
+                                            <textarea type="text" class="invt-input form-control titlecase"
+                                                placeholder="Notification" formControlName="notice_body"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 mb-2">
+                                        <div class="add-tran-input">
+                                            <label class="label-input">Type</label>
+                                            <ng-select [clearable]="false" loadingText="Loading..."
+                                                [virtualScroll]="true" [searchable]="false" formControlName="type">
+                                                <ng-option *ngFor="let type of types" [value]="type.id">
+                                                    {{ type.name | titlecase }}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 mb-2">
+                                        <div class="add-tran-input">
+                                            <label class="label-input">Status</label>
+                                            <ng-select [clearable]="false" loadingText="Loading..."
+                                                [virtualScroll]="true" [searchable]="false" formControlName="status">
+                                                <ng-option *ngFor="let status of statuses" [value]="status.id">
+                                                    {{ status.name | titlecase }}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 mb-2">
+                                        <div class="add-tran-input">
+                                            <label class="label-input">Choose Image</label>
+                                            <input type="file" class="invt-input form-control" formControlName="file"
+                                                placeholder="file upload" (change)="selectFiles($event)"
+                                                accept="image/*" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12" style="text-align: right">
+                                        <div class="inverntory-btn mt-3"
+                                            style="display: flex; justify-content: flex-end">
+                                            <button mat-button type="button"
+                                                style="background: #d7e0e9; color: black; border: none; margin-right: 4px"
+                                                (click)="closeModal()">Cancel</button>
+                                            <button mat-button style="margin: 0px;">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>{{data?.done !== 'no' ? 'Confirmation' : 'Description'}}</h2>
+<div mat-dialog-content>{{data?.text || "NA"}} <strong *ngIf="data?.name">({{data?.name | titlecase}})</strong></div>
+<div mat-dialog-actions class="model-btn" style="justify-content: flex-end;">
+    <button mat-button (click)="cancel()" style="background: rgba(0,0,0,.38); border: none;">Cancel</button>
+    <button mat-button (click)="done()" class="ml-10" *ngIf="data?.done !== 'no'">Done</button>
+</div>

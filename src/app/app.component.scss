@@ -1,0 +1,13 @@
+:host::ng-deep .mat-expansion-panel {
+  background: transparent !important;
+  color: rgba(0,0,0,.87);
+  box-shadow: none;
+}
+:host::ng-deep th.mat-header-cell {
+  text-align: left;
+  font-size: 16px !important;
+}
+.model-header h5 {
+  font-size: 16px;
+  font-weight: 500;
+}

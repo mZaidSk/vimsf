@@ -1,0 +1,192 @@
+<app-loader class="loader" *ngIf="isLoading"></app-loader>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="inventory-box">
+          <div class="inhhouse-box">
+            <div class="map-title">
+              <h5>
+                <span (click)="back()">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example arrow_back icon"
+                    >arrow_back
+                  </mat-icon>
+                </span>
+                {{ userId ? "Edit" : "Add" }} User
+              </h5>
+            </div>
+            <div class="inventory-form">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Name</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control titlecase"
+                        formControlName="name"
+                        required
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.name.touched &&
+                          form.controls.name.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.name.errors.required"
+                          >name is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Email</label>
+                      <input
+                        type="email"
+                        class="invt-input form-control lowercase"
+                        formControlName="email"
+                        required
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.email.touched &&
+                          form.controls.email.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.email.errors.required"
+                          >email is required</span
+                        >
+                        <span *ngIf="form.controls.email.errors.email"
+                          >email is not valid</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Branch</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="branch_id"
+                        placeholder="Type to search"
+                      >
+                        <ng-option
+                          *ngFor="let branch of branches"
+                          [value]="branch.branch_id"
+                        >
+                          {{ branch.branch_id }}</ng-option
+                        >
+                      </ng-select>
+                      <p
+                        *ngIf="
+                          form.controls.branch_id.touched &&
+                          form.controls.branch_id.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.branch_id.errors.required"
+                          >branch is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Mobile</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        formControlName="mobile"
+                        (keypress)="onKeyPress($event)"
+                        required
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.mobile.touched &&
+                          form.controls.mobile.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.mobile.errors.required"
+                          >mobile is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Password</label>
+                      <div class="input-group mb-3">
+                        <input
+                          [type]="hide ? 'text' : 'password'"
+                          class="invt-input form-control"
+                          formControlName="password"
+                          required
+                          style="
+                            width: 84%;
+                            border-top-right-radius: 0px;
+                            border-bottom-right-radius: 0px;
+                          "
+                        />
+                        <div
+                          class="input-group-append"
+                          (click)="showPassword()"
+                        >
+                          <span class="input-group-text material-icons"
+                            >remove_red_eye</span
+                          >
+                        </div>
+                      </div>
+                      <p
+                        *ngIf="
+                          form.controls.password.touched &&
+                          form.controls.password.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.password.errors.required"
+                          >password is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12" style="text-align: right">
+                    <div
+                      class="inverntory-btn mt-3"
+                      style="display: flex; justify-content: flex-end"
+                    >
+                      <button
+                        [disabled]="form.invalid || isLoading"
+                        [class.spinner]="isLoading"
+                        mat-button
+                        style="margin: unset"
+                      >
+                        {{ userId ? "Update" : "Create" }} User
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-added-group
+      *ngIf="userId"
+      [id]="userId"
+      (emitResponse)="emitResponse()"
+      [dataSource]="groups"
+    >
+    </app-added-group>
+  </div>
+</div>

@@ -1,0 +1,281 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="inventory-box">
+          <div class="inhhouse-box">
+            <div
+              class="map-title"
+              style="display: flex; justify-content: space-between"
+            >
+              <h5>ID Creation Request:</h5>
+              <mat-icon
+                class="close-icon"
+                color="grey"
+                style="cursor: pointer"
+                (click)="close()"
+                >close</mat-icon
+              >
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-xs-6 container-view">
+                <div class="inventory-box">
+                  <div class="inventory-form">
+                    <div class="inhhouse-box">
+                      <div class="map-title">
+                        <h5>User:</h5>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4 col-sm-4 col-xs-12 pr-0">
+                          <div class="map-sub-title">Name</div>
+                          <div style="line-height: 24px; letter-spacing: 0.5px">
+                            {{ IDCreation?.requested_by?.name || "Fetching" }}
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-12 pr-0">
+                          <div class="map-sub-title">Phone</div>
+                          <div style="line-height: 24px; letter-spacing: 0.5px">
+                            {{ IDCreation?.requested_by?.mobile || "Fetching" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-xs-6 container-view">
+                <div class="inventory-box">
+                  <div class="inventory-form">
+                    <div class="inhhouse-box">
+                      <div class="map-title">
+                        <h5>Exchange</h5>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4 col-sm-4 col-xs-12 pr-0">
+                          <div class="map-sub-title">Name</div>
+                          <div
+                            style="
+                              line-height: 24px;
+                              letter-spacing: 0.5px;
+                              display: flex;
+                            "
+                          >
+                            {{ IDCreation?.website?.name || "Fetching" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-sm-12 col-xs-12 container-view">
+                <div class="inventory-box">
+                  <div class="inventory-form">
+                    <div class="inhhouse-box">
+                      <div class="map-title">
+                        <h5>A/C info:</h5>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 col-sm-3 col-xs-12 pr-0">
+                          <div class="map-sub-title">Bank</div>
+                          <div style="line-height: 24px; letter-spacing: 0.5px">
+                            {{ IDCreation?.deposited_on?.bank?.name }}({{
+                              IDCreation?.deposited_on?.bank?.branch
+                            }})
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-xs-12 pr-0">
+                          <div class="map-sub-title">Holder Name</div>
+                          <div style="line-height: 24px; letter-spacing: 0.5px">
+                            {{
+                              IDCreation?.deposited_on?.bank
+                                ?.account_holder_name
+                            }}
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-xs-12 pr-0">
+                          <div class="map-sub-title">Account No</div>
+                          <div style="line-height: 24px; letter-spacing: 0.5px">
+                            {{ IDCreation?.deposited_on?.bank?.account_number }}
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-xs-12 pr-0">
+                          <div class="map-sub-title">Payment Method</div>
+                          <div style="line-height: 24px; letter-spacing: 0.5px">
+                            {{
+                              IDCreation?.deposited_on?.payment_method?.title
+                            }}
+                            <span
+                              *ngIf="
+                                IDCreation?.deposited_on?.payment_method
+                                  ?.title == 'UPI'
+                              "
+                            >
+                              ({{ IDCreation?.deposited_on?.bank?.upi_id }} )
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="inventory-form">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <div class="add-tran-input">
+                      <label class="label-input">Username</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        formControlName="client_user_name"
+                      />
+                      <mat-icon
+                        (click)="copyClipboard()"
+                        style="
+                          position: absolute;
+                          top: 32px;
+                          right: 20px;
+                          cursor: pointer;
+                        "
+                        >content_copy</mat-icon
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="add-tran-input">
+                      <label class="label-input">Password</label>
+                      <div style="display: flex">
+                        <input
+                          [type]="hide ? 'text' : 'password'"
+                          class="invt-input form-control"
+                          formControlName="client_user_password"
+                          placeholder="Enter your Password"
+                          required
+                          style="
+                            border-top-right-radius: 0px;
+                            border-bottom-right-radius: 0px;
+                          "
+                        />
+                        <span
+                          (click)="showPassword()"
+                          class="input-group-text material-icons"
+                          style="
+                            cursor: pointer;
+                            border-top-left-radius: 0px;
+                            border-bottom-left-radius: 0px;
+                          "
+                          >remove_red_eye</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <div class="add-tran-input">
+                      <label class="label-input">Amount</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        formControlName="amount"
+                        (keypress)="onKeyPress($event)"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="add-tran-input">
+                      <label class="label-input">Bonus Amount</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        formControlName="bonus_amount"
+                        (keypress)="onKeyPress($event)"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <div class="add-tran-input">
+                      <label class="label-input">UTR NO.</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        formControlName="utr"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="add-tran-input">
+                      <label class="label-input">Status</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        [searchable]="false"
+                        placeholder="Type to search"
+                        formControlName="status_id"
+                      >
+                        <ng-option
+                          *ngFor="let request of requests"
+                          [value]="request.id"
+                        >
+                          {{ request.name | titlecase }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <div class="add-tran-input">
+                      <label class="label-input">Description</label>
+                      <textarea
+                        type="text"
+                        class="invt-input form-control titlecase"
+                        formControlName="description"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="inverntory-btn" style="display: flex">
+                  <button
+                    mat-button
+                    type="button"
+                    style="
+                      background: #d7e0e9;
+                      color: black;
+                      border: none;
+                      margin-right: 4px;
+                    "
+                    (click)="close()"
+                  >
+                    Cancel
+                  </button>
+                  <button mat-button style="margin: 0px">Save</button>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <img
+                      src="{{ IDCreation?.request_data?.image_url }}"
+                      alt="image_url"
+                      style="width: 100%"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

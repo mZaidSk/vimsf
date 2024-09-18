@@ -1,0 +1,347 @@
+<app-loader class="loader" *ngIf="isLoading"></app-loader>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="inventory-box">
+          <div class="inhhouse-box">
+            <div
+              class="map-title"
+              style="display: flex; justify-content: space-between"
+            >
+              <h5>
+                <span (click)="back()">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example arrow_back icon"
+                    >arrow_back
+                  </mat-icon>
+                </span>
+                {{ transactionId ? "Edit" : "Add" }} Transaction
+              </h5>
+              <button
+                mat-button
+                (click)="CreateNew()"
+                style="
+                  background: #d7e0e9;
+                  margin-bottom: 10px;
+                  width: 100px;
+                  padding: 0px;
+                "
+              >
+                Add Client
+              </button>
+            </div>
+            <div class="inventory-form">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">
+                        Client
+                        <a
+                          (click)="onclickRecovery(isRecoveryStatus.id)"
+                          *ngIf="isRecoveryStatus.id > 0"
+                          matTooltip="{{ isRecoveryStatus.description }}"
+                          [matTooltipPosition]="'right'"
+                          style="padding: 10px; margin-bottom: 10px"
+                        >
+                          <mat-icon style="color: #dd0202"> warning </mat-icon>
+                        </a>
+                      </label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="client_id"
+                        placeholder="Type to search"
+                        [searchable]="true"
+                        (ngModelChange)="clientChange($event)"
+                        (search)="clientSearch($event)"
+                      >
+                        <ng-option
+                          *ngFor="let client of clients"
+                          [value]="client.id"
+                        >
+                          {{ client.name }} ( {{ client.website?.name }} )
+                        </ng-option>
+                      </ng-select>
+                      <p
+                        *ngIf="
+                          form.controls.client_id.touched &&
+                          form.controls.client_id.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.client_id.errors.required"
+                          >client is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Bank</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="bank_id"
+                        placeholder="Type to search"
+                      >
+                        <ng-option *ngFor="let bank of banks" [value]="bank.id">
+                          {{ bank.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                      <p
+                        *ngIf="
+                          form.controls.bank_id.touched &&
+                          form.controls.bank_id.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.bank_id.errors.required"
+                          >bank is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Action</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="action_id"
+                        placeholder="Type to search"
+                        (ngModelChange)="actionChange($event)"
+                      >
+                        <ng-option
+                          *ngFor="let action of actions"
+                          [value]="action.id"
+                        >
+                          {{ action.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                      <p
+                        *ngIf="
+                          form.controls.action_id.touched &&
+                          form.controls.action_id.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.action_id.errors.required"
+                          >action is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input">Status</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="is_process"
+                        placeholder="Type to search"
+                      >
+                        <ng-option
+                          *ngFor="let status of statuses"
+                          [value]="status.id"
+                        >
+                          {{ status.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Amount</label>
+                      <input
+                        type="number"
+                        class="invt-input titlecase form-control"
+                        formControlName="amount"
+                        placeholder="amount"
+                        (keyup)="onAmountChange($event)"
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.amount.touched &&
+                          form.controls.amount.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.amount.errors.required"
+                          >amount is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Bonus Amount</label>
+                      <div></div>
+                      <input
+                        type="number"
+                        class="invt-input titlecase form-control"
+                        formControlName="bonus_amount"
+                        placeholder="Bonus Amount"
+                        *ngIf="!transactionId"
+                        (keyup)="onBonusAmountChange($event)"
+                      />
+
+                      <input
+                        type="number"
+                        class="invt-input titlecase readonly form-control"
+                        formControlName="bonus_amount"
+                        placeholder="Bonus Amount"
+                        readonly="true"
+                        *ngIf="transactionId && !is_admin"
+                        (keyup)="onBonusAmountChange($event)"
+                      />
+
+                      <input
+                        type="number"
+                        class="invt-input titlecase form-control"
+                        formControlName="bonus_amount"
+                        placeholder="Bonus Amount"
+                        *ngIf="transactionId && is_admin"
+                        (keyup)="onBonusAmountChange($event)"
+                      />
+
+                      <p
+                        *ngIf="
+                          form.controls.bonus_amount.touched &&
+                          form.controls.bonus_amount.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.bonus_amount.errors.required"
+                          >Bonus amount is required</span
+                        >
+                        <span *ngIf="form.controls.bonus_amount.errors.max"
+                          >Bonus amount should not be greater than
+                          {{ maximumBonus }}</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Website</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="website_id"
+                        placeholder="Type to search"
+                      >
+                        <ng-option
+                          *ngFor="let website of websites"
+                          [value]="website.id"
+                        >
+                          {{ website.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                      <p
+                        *ngIf="
+                          form.controls.website_id.touched &&
+                          form.controls.website_id.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.website_id.errors.required"
+                          >website is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input">UTR</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        maxlength="6"
+                        formControlName="utr"
+                        placeholder="UTR"
+                        (keypress)="onKeyPress($event)"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input" *ngIf="is_admin">
+                      <label class="label-input">Back Date</label>
+                      <input
+                        type="datetime-local"
+                        class="invt-input form-control"
+                        formControlName="created_at"
+                        placeholder="Created At"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4" *ngIf="available_balance">
+                    <div class="add-tran-input">
+                      <label class="label-input">My Available Balance</label>
+                      <input
+                        type="input"
+                        class="invt-input form-control"
+                        readonly
+                        value="{{ available_balance }}"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-lg-4" *ngIf="available_balance">
+                    <div class="add-tran-input">
+                      <label class="label-input">After</label>
+                      <input
+                        type="input"
+                        class="invt-input form-control"
+                        readonly
+                        value="{{ available_balance_after }}"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 col-lg-12">
+                    <div class="add-tran-input">
+                      <label class="label-input">Description</label>
+                      <textarea
+                        rows="5"
+                        type="number"
+                        class="invt-input titlecase form-control"
+                        formControlName="description"
+                        placeholder="description"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12" style="text-align: right">
+                    <div
+                      class="inverntory-btn mt-3"
+                      style="display: flex; justify-content: flex-end"
+                    >
+                      <button
+                        [disabled]="form.invalid || isLoading"
+                        [class.spinner]="isLoading"
+                        mat-button
+                        style="margin: unset"
+                      >
+                        {{ transactionId ? "Update" : "Create" }} Transaction
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-12">
+        <div class="inventory-box">
+            <div class="inhhouse-box">
+                <div class="map-title">
+                    <h5>Add Permission</h5>
+                </div>
+                <div class="inventory-btn" style="position: relative; bottom: 40px;">
+                    <ul>
+                        <li>
+                            <a href="javascript:void();" (click)="submit(permissions)">
+                                Submit
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="inventory-table">
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle *ngFor="let permission of permissions">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="mat-box">
+                                        <h5>{{permission?.module_name | titlecase}}</h5>
+                                        <span style="position: relative; bottom: -20px;">
+                                            <mat-icon aria-hidden="false" aria-label="Example expand_more icon">
+                                                expand_more</mat-icon>
+                                        </span>
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-selection-list style="display: flex;" (selectionChange)="onChange(permission, $event)">
+                                <mat-list-option *ngFor="let arr of permission.arrs" [value]="arr.permission_id" [selected]="arr.selected">
+                                    {{arr?.display_name | titlecase}}
+                                </mat-list-option>
+                            </mat-selection-list>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

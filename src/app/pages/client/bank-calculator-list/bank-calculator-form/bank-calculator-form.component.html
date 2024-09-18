@@ -1,0 +1,150 @@
+<app-loader class="loader" *ngIf="isLoading"></app-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="inventory-box">
+                    <div class="inhhouse-box">
+                        <div class="map-title">
+                            <h5>
+                                <span (click)="back()">
+                                    <mat-icon aria-hidden="false" aria-label="Example arrow_back icon">arrow_back
+                                    </mat-icon>
+                                </span>
+                                Bank calculator
+                            </h5>
+                        </div>
+                        <div class="inventory-form">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <label class="label-input">Name</label>
+                                    <input type="text" class="invt-input form-control titlecase" placeholder="Name"
+                                        [(ngModel)]="name" />
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <label class="label-input">Description</label>
+                                    <textarea type="text" class="invt-input form-control titlecase"
+                                        placeholder="Description" [(ngModel)]="description">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="inventory-inputbox" style="display: flex; justify-content: space-between;">
+                                <div class="inv-input" style="width: 100%;">
+                                    <label class="label-input">Bank</label>
+                                    <ng-select [clearable]="false" loadingText="Loading..." [virtualScroll]="true"
+                                        placeholder="Type to search" (ngModelChange)="bankChange($event)" ngModel>
+                                        <ng-option *ngFor="let bank of banks" [value]="bank">
+                                            {{ bank.name | titlecase }}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="inverntory-btn" style="
+                                    margin-top: 25px;
+                                    margin-left: 5px;
+                                    border-radius: 5px;
+                                    background: #7f2269;
+                                    color: #fff;
+                                    padding:0px 20px">
+                                    <button type="button" mat-button (click)="addAllBank()">Add All</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inventory-box">
+                    <div class="inhhouse-box">
+                        <div class="inventory-form">
+                            <div class="text-center" *ngIf="form.get('bank_data')['value'].length === 0">
+                                No bank data added!
+                            </div>
+                            <form [formGroup]="form">
+                                <div formArrayName="bank_data" *ngFor="
+                    let sample of form.get('bank_data')['controls'];
+                    let i = index
+                  ">
+                                    <ng-container [formGroupName]="i">
+                                        <div class="inventory-inputbox">
+                                            <div class="inv-input mr-3">
+                                                <label class="label-input">Bank Name</label>
+                                                <input type="text" class="invt-input titlecase"
+                                                    formControlName="name" />
+                                            </div>
+                                            <div class="inv-input mr-3">
+                                                <label class="label-input">BBMS Bank Amount</label>
+                                                <input type="text" class="invt-input titlecase"
+                                                    formControlName="bbms_bank_amount" />
+                                            </div>
+                                            <div class="inv-input mr-3">
+                                                <label class="label-input">Bank Amount</label>
+                                                <input type="number" class="invt-input titlecase"
+                                                    formControlName="bank_amount" (keypress)="onKeyPress($event)"
+                                                    (change)="onKeyPress($event)" />
+                                            </div>
+                                            <div class="inv-input mr-3">
+                                                <label class="label-input">Difference</label>
+                                                <input type="text" class="invt-input titlecase"
+                                                    formControlName="difference" />
+                                            </div>
+                                            <div class="inverntory-btn" style="margin-top: 27px">
+                                                <button type="button" mat-button (click)="removeBank(i)"
+                                                    style="padding: 8px;">
+                                                    X
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </form>
+                            <div *ngIf="form.get('bank_data')['value'].length !== 0" class="inverntory-btn" style="
+                                margin-top: 25px;
+                                margin-left: 4px;
+                                border-radius: 5px;
+                                background: #7f2269;
+                                color: #fff;    
+                                float: right;
+                                margin-right: 22px;
+                                width: fit-content;
+                                padding:0px 20px">
+                                <button type="button" mat-button (click)="saveBank()">{{calculatorId ? 'Update' : 'Save'}}</button>
+                            </div>
+                            <div *ngIf="form.get('bank_data')['value'].length !== 0" class="inverntory-btn" style="
+                                margin-top: 25px;
+                                margin-left: 5px;
+                                border-radius: 5px;
+                                background: #7f2269;
+                                color: #fff;    
+                                float: right;
+                                width: fit-content;
+                                padding:0px 20px">
+                                <button type="button" mat-button (click)="removeAllBank()">Remove All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inventory-box" *ngIf="form.get('bank_data')['value'].length"
+                    style="padding: 10px 45px 10px 45px">
+                    <div class="inhhouse-box">
+                        <div class="inventory-form">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-3 col-xs-3">
+                                    Total
+                                </div>
+                                <div class="col-lg-3 col-sm-3 col-xs-3" [ngClass]="{ negative: bbmsBankAmount < 0 }">
+                                    <strong>{{ bbmsBankAmount || 0 }}</strong>
+                                </div>
+                                <div class="col-lg-3 col-sm-3 col-xs-3" [ngClass]="{ negative: bankAmount < 0 }">
+                                    <strong>{{ bankAmount || 0 }}</strong>
+                                </div>
+                                <div class="col-lg-3 col-sm-3 col-xs-3">
+                                    <strong [ngClass]="{ negative: bankAmount - bbmsBankAmount < 0 }">{{ bankAmount -
+                                        bbmsBankAmount
+                                        }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

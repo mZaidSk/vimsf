@@ -1,0 +1,63 @@
+<div class="sidebar-menu">
+  <div style="cursor: pointer; padding: 12px 0px 12px 0px; margin-bottom: 5px">
+    <a
+      style="color: white; margin-left: 15%; text-decoration: none"
+      routerLink="/dashboard"
+    >
+      <span class="menu-icon" style="margin-right: 15px">
+        <img
+          src="assets/images/dashboard.png"
+          style="width: 26px"
+          alt="dashboard"
+        />
+      </span>
+      <span>Dashhboard</span>
+    </a>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel
+      hideToggle
+      *ngFor="let memu of menus"
+      style="margin: 0px"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <a
+            [routerLink]="memu.route"
+            style="color: white; margin-left: 15%; text-decoration: none"
+          >
+            <span class="menu-icon" style="margin-right: 15px">
+              <img
+                src="{{ memu?.baseUrl }}{{ memu?.image }}"
+                style="width: 26px"
+                alt="{{ memu?.name }}"
+              />
+            </span>
+            <span>{{ memu?.title }}</span>
+          </a>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div *ngIf="memu.subMenus && memu.subMenus.length > 0">
+        <div class="sub-menu">
+          <ul *ngFor="let subMenu of memu?.subMenus">
+            <li>
+              <a
+                [routerLink]="[subMenu.route]"
+                [routerLinkActive]="'active-route'"
+                >{{ subMenu?.title }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <!-- <div style="cursor: pointer; padding: 12px 0px 12px 0px; margin-bottom: 5px;">
+        <a style="color: white; margin-left: 15%; text-decoration: none;" routerLink="/head-branch/dashboard">
+            <span class="menu-icon" style="margin-right: 15px;">
+                <img src="assets/images/head-branch.png" style="width: 26px;" alt="dashboard" />
+            </span>
+            <span>Head Branch</span>
+        </a>
+    </div> -->
+</div>

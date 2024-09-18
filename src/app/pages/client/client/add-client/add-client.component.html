@@ -1,0 +1,155 @@
+<app-loader class="loader" *ngIf="isLoading"></app-loader>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="inventory-box">
+          <div class="inhhouse-box">
+            <div class="map-title">
+              <h5>
+                <span (click)="back()">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example arrow_back icon"
+                    >arrow_back
+                  </mat-icon>
+                </span>
+                {{ clientId ? "Edit" : "Add" }} Client
+              </h5>
+            </div>
+            <div class="inventory-form">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Name</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control"
+                        formControlName="name"
+                        placeholder="Client name"
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.name.touched &&
+                          form.controls.name.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.name.errors.required"
+                          >client name is required</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input required">Phone</label>
+                      <input
+                        type="text"
+                        class="invt-input form-control titlecase"
+                        formControlName="phone"
+                        placeholder="client phone"
+                        (keypress)="onKeyPress($event, 9)"
+                      />
+                      <p
+                        *ngIf="
+                          form.controls.phone.touched &&
+                          form.controls.phone.invalid
+                        "
+                        class="text-danger input-error"
+                      >
+                        <span *ngIf="form.controls.phone.errors.required"
+                          >phone is required</span
+                        >
+                        <span
+                          class="text-danger input-error"
+                          *ngIf="form.controls.phone.errors?.pattern"
+                          >please enter valid phone</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input">Type</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        [searchable]="false"
+                        formControlName="type"
+                        placeholder="Type to search"
+                      >
+                        <ng-option *ngFor="let type of types" [value]="type.id">
+                          {{ type.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input">Website</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="website_id"
+                        placeholder="Type to search"
+                      >
+                        <ng-option
+                          *ngFor="let website of websites"
+                          [value]="website.id"
+                        >
+                          {{ website.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-md-4 col-lg-4">
+                    <div class="add-tran-input">
+                      <label class="label-input">User Type</label>
+                      <ng-select
+                        [clearable]="false"
+                        loadingText="Loading..."
+                        [virtualScroll]="true"
+                        formControlName="user_type_id"
+                        placeholder="Type to search"
+                      >
+                        <ng-option
+                          *ngFor="let user_type of user_types"
+                          [value]="user_type.id"
+                        >
+                          {{ user_type.name | titlecase }}</ng-option
+                        >
+                      </ng-select>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12" style="text-align: right">
+                    <div
+                      class="inverntory-btn mt-3"
+                      style="display: flex; justify-content: flex-end"
+                    >
+                      <button
+                        [disabled]="form.invalid || isLoading"
+                        [class.spinner]="isLoading"
+                        mat-button
+                        style="margin: unset"
+                      >
+                        {{ clientId ? "Update" : "Create" }} Client
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

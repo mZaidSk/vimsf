@@ -1,0 +1,38 @@
+<div style="height:100%; width:100%; overflow-x: hidden;">
+    <div class="row">
+        <div class="col-md">
+            <div class="login-left-box">
+                <h1>BBMS</h1>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="login-right-box">
+                <form [formGroup]="signinForm" (ngSubmit)="PostData()">
+                    <div class="login-title">
+                        <h5 class="align-center">Please sign in to continue</h5>
+                    </div>
+                    <div class="input-box">
+                        <label for="email">Email</label>
+                        <input type="email" class="login-input" formControlName="email" placeholder="Enter your email"
+                            required />
+                    </div>
+                    <div class="input-box">
+                        <label for="password">Password</label>
+                        <div style="display: flex;">
+                            <input [type]="hide ? 'text' : 'password'" class="login-input" formControlName="password"
+                                placeholder="Enter your Password" required style="border-top-right-radius: 0px;
+                                border-bottom-right-radius: 0px;" />
+                            <span (click)="showPassword()" class="input-group-text material-icons" style="cursor: pointer; border-top-left-radius: 0px;
+                            border-bottom-left-radius: 0px;">remove_red_eye</span>
+                        </div>
+                    </div>
+                    <div class="login-btn-wrap">
+                        <button type="submit" class="login-btn" routerLinkActive="router-link-active">
+                            SIGN IN
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

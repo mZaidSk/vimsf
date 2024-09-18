@@ -1,0 +1,47 @@
+.addrolebox {
+  min-width: 60vh;
+}
+mat-form-field {
+  width: 100%;
+}
+.model-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.model-btn button{
+  position: relative;
+  display: block;
+  width: fit-content;
+  border: 1px solid #7f2269;
+  background-color: #7f2269;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  padding: 10px 30px;
+  cursor: pointer;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: 0.5s all ease;
+}
+/* Add application styles & imports to this file! */
+html, body, div, canvas {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+div.container {
+  overflow: hidden;
+}
+
+html,
+body,
+div,
+canvas {
+  margin: 0;
+  padding: 0;
+}

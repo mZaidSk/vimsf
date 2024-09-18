@@ -1,0 +1,63 @@
+.mat-form-field {
+    width: 100% !important;
+}
+
+.mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+}
+
+.mat-toolbar-single-row button {
+    width: 200px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-form-field-flex {
+    border: 1px solid red;
+}
+
+#uploadFile {
+    top: 0px;
+    left: 0px;
+    width: 100%;    
+    z-index: 9;
+    opacity: 0;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+}
+
+table {
+    width: 100%;
+}
+  
+mat-panel-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 5px;
+    color: #282d30;
+}
+.addrole {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7f2269;
+    text-decoration: underline;
+}
+.mat-box {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+}
+.mat-box h5 {
+    font-size: 16px;
+    margin-top: 20px;
+}
+.note {
+    font-size: 12px;
+}

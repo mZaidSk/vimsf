@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-12">
+        <div class="inventory-box">
+            <div class="inhhouse-box">
+                <div class="map-title">
+                    <h5>Add Role</h5>
+                </div>
+                <div class="inventory-btn" style="position: relative; bottom: 40px;">
+                    <ul>
+                        <li><a href="javascript:void();" (click)="openDialog()">
+                                <mat-icon aria-hidden="false" aria-label="Example add icon">add</mat-icon>
+                            </a></li>
+                    </ul>
+                </div>
+                <div class="inventory-table">
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="mat-box">
+                                        <h5>Roles ({{dataSource?.length}})</h5>
+                                        <span style="position: relative; bottom: -20px;">
+                                            <mat-icon aria-hidden="false" aria-label="Example expand_more icon">
+                                                expand_more</mat-icon>
+                                        </span>
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="Group-table">
+                                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="description">
+                                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ (element?.description?.substring(0, 15) | titlecase) || 'NA'}}...<a style="color: blue;" (click)="readmore(element?.description)">Read more</a>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="text-right"> Action </th>
+                                        <td mat-cell *matCellDef="let element" class="text-right">
+                                            <div class="action-btn">
+                                                <mat-icon aria-hidden="false" aria-label="Example edit icon"
+                                                [routerLink]="['/setting', 'role-list', 'edit-role', element.id]">edit</mat-icon>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
